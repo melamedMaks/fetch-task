@@ -4,9 +4,16 @@
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="greetings">Welcome to the Fetch Task!</string>
+    <string name="call_to_action">LIST OF ITEMS</string>
+    <string name="button_load">load</string>
+    <string name="button_sort_by_name">name</string>
+    <string name="button_sort_by_list_id">list id</string>
+    <string name="call_to_action_refresh">Swipe Down To Refresh</string>
+    <string name="id">Id: </string>
+    <string name="list_id">LIST ID: </string>
+    <string name="name">Name: </string>
+    <string name="arrow_dawn_to_refresh">Animated arrow dawn call to action refresh</string>
+    <string name="arrow_dawn_to_load_data">Animated arrow dawn call to action load data</string>
 </resources>

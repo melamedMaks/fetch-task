@@ -1,19 +1,23 @@
-package maksim.melamed.fetchtask
+package maksim.melamed.fetchtask.presenterfragment
 
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import maksim.melamed.fetchtask.databinding.FragmentFirstBinding
+import maksim.melamed.fetchtask.R
+import maksim.melamed.fetchtask.animateArrow
+import maksim.melamed.fetchtask.databinding.FragmentPresenterBinding
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class FirstFragment : Fragment() {
+class PresenterFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentPresenterBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,17 +26,21 @@ class FirstFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentPresenterBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
+        initListeners()
+        animateArrow(view = binding.imageViewArrowDownPresenter)
+    }
+
+    private fun initListeners() {
+        binding.buttonLoadPresenter.setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
     }
