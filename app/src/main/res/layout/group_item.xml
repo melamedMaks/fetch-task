@@ -10,7 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F1F8E9">
+        android:background="#F1F8E9"
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/item_list_id_value"

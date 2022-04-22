@@ -6,10 +6,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 
 interface Service {
+    /*
+makes query to fetch-hiring api and returns list of Data objects (list of items)
+*/
     @GET("hiring.json")
     suspend fun getFetchData(
     ): List<Data>
 
+    /*
+builds Retrofit object
+*/
     companion object {
         fun create(): Service {
             return Retrofit.Builder()

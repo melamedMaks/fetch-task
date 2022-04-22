@@ -5,6 +5,9 @@ import kotlinx.coroutines.withContext
 import maksim.melamed.fetchtask.models.Data
 import maksim.melamed.fetchtask.services.Service
 
+    /*
+returns list of Data objects within suspend function
+*/
 class Repository {
 
     suspend fun getData(): List<Data>{

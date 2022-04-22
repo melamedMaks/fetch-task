@@ -11,11 +11,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import maksim.melamed.fetchtask.databinding.FragmentListBinding
-import maksim.melamed.fetchtask.models.Data
+import maksim.melamed.fetchtask.utils.filterAndSortListOfItems
 import maksim.melamed.fetchtask.models.SortedData
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
+/*
+the second screen that displays list of items received from api
+allows to refresh the data by swiping dawn
  */
 class ListFragment : Fragment() {
 
@@ -32,6 +33,7 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        //initiates viewModel classic mvvm pattern without vm factory
         listViewModel = ViewModelProvider(this)[ListViewModel::class.java]
         _binding = FragmentListBinding.inflate(inflater, container, false)
         return binding.root
@@ -40,19 +42,32 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //initiates variables in this case only swipeRefreshLayout
         initVars()
+        //initiates listeners (only onRefreshListener listener)
         initListeners()
+        //initiates observers of liveData from viewModel
         initObservers()
+        //calls method in viewModel to get data that starts a chained events
+        //that the result of these returned to one of the observers
+        //(fragment -> viewModel -> repository -> service -> repository -> viewModel -> observer)
         listViewModel.getData()
     }
 
     private fun initObservers() {
         listViewModel.apply {
+            //observes result of received data (list of Data objects)
             data.observe(viewLifecycleOwner) { list ->
+                //disables two progress bars (one that enabled only while first load, second on swipe down)
                 disableProgressBars(isEnabled = false)
-                val sortedData = filterAndSortListOfItems(list)
+                //creating a new variable with sorted list of items according to the task requirements
+                val sortedData = filterAndSortListOfItems(list) //method to sort the received list
+                //renders ui within sorted list while using recycler view
                 renderUi(sortedData)
             }
+            //observes coroutine exception handler
+            //receives string of localised message
+            //displays message with toast
             errorHandler.observe(viewLifecycleOwner) {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                 disableProgressBars(isEnabled = false)
@@ -60,6 +75,8 @@ class ListFragment : Fragment() {
         }
     }
 
+    //initiates recycler view and adapter
+    //that receives sorted list of items and displays to user
     private fun renderUi(sortedData: List<SortedData>) {
         binding.recyclerViewGroup.adapter = GroupAdapter(dataList = sortedData)
         binding.recyclerViewGroup.layoutManager = LinearLayoutManager(
@@ -67,32 +84,25 @@ class ListFragment : Fragment() {
         )
     }
 
+    //function to disable / enable swipe progress bars by passing true / false
     private fun disableProgressBars(isEnabled: Boolean) {
+        //indicator from material design
         binding.progressindicator.isVisible = isEnabled
         swipeRefreshLayout.isRefreshing = isEnabled
     }
 
+    //initiates swipeRefreshLayout listener
+    // that calls function from viewModel to get list of items
     private fun initListeners() {
         swipeRefreshLayout.setOnRefreshListener {
             listViewModel.getData()
         }
     }
 
+    //initiates variables (useful if more than one)
     private fun initVars() {
         swipeRefreshLayout = binding.swipe
         swipeRefreshLayout.isEnabled = true
-    }
-
-    private fun filterAndSortListOfItems(list: List<Data>): List<SortedData> {
-        var data = list.filter { !it.name.isNullOrEmpty() }
-        data = data.sortedWith(compareBy<Data> { it.listId }.then(compareBy { it.name }))
-        val mapOfData = data.groupBy { it.listId }
-        val listOfData = mapOfData.toList()
-        val sortedData = mutableListOf<SortedData>()
-        for ((i, pair) in listOfData.withIndex()) {
-            sortedData.add(i, SortedData(pair.first, pair.second))
-        }
-        return sortedData
     }
 
     override fun onDestroyView() {
