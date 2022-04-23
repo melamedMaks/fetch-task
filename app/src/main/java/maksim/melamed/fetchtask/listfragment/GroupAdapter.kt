@@ -7,28 +7,31 @@ import androidx.recyclerview.widget.RecyclerView
 import maksim.melamed.fetchtask.databinding.GroupItemBinding
 import maksim.melamed.fetchtask.models.SortedData
 
-/*
-GroupAdapter that accepts list of DataSorted objects and renders it in recyclerView
+/**
+ * GroupAdapter that accepts list of DataSorted objects and renders it in recyclerView
 while providing list of detailed item data to nested ItemAdapter
  */
 
 class GroupAdapter(var dataList: List<SortedData>) :
     RecyclerView.Adapter<GroupAdapter.VH>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH = VH(
-        GroupItemBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH =
+        VH(
+            GroupItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         )
-    )
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         renderListId(holder, position)
         renderItemList(holder, position)
     }
 
-    //displays list id within its current position in the list by index
+    /**
+     * displays list id within its current position in the list by index
+     */
     private fun renderListId(
         holder: VH,
         position: Int
@@ -36,8 +39,10 @@ class GroupAdapter(var dataList: List<SortedData>) :
         holder.binding.itemListIdValue.text = dataList[position].listId.toString()
     }
 
-    //passes the list of data to ItemAdapter
-    //within its current position in the list (list of SortedData) that grouped by list id
+    /**
+     * passes the list of data to ItemAdapter
+    within its current position in the list (list of SortedData) that grouped by list id
+     */
     private fun renderItemList(
         holder: VH,
         position: Int

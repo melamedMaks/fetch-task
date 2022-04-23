@@ -11,19 +11,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import maksim.melamed.fetchtask.databinding.FragmentListBinding
-import maksim.melamed.fetchtask.utils.filterAndSortListOfItems
 import maksim.melamed.fetchtask.models.SortedData
+import maksim.melamed.fetchtask.utils.filterAndSortListOfItems
 
-/*
+/**
 the second screen that displays list of items received from api
 allows to refresh the data by swiping dawn
  */
 class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var listViewModel: ListViewModel
@@ -59,7 +56,7 @@ class ListFragment : Fragment() {
             //observes result of received data (list of Data objects)
             data.observe(viewLifecycleOwner) { list ->
                 //disables two progress bars (one that enabled only while first load, second on swipe down)
-                disableProgressBars(isEnabled = false)
+                disableProgressBars()
                 //creating a new variable with sorted list of items according to the task requirements
                 val sortedData = filterAndSortListOfItems(list) //method to sort the received list
                 //renders ui within sorted list while using recycler view
@@ -70,13 +67,16 @@ class ListFragment : Fragment() {
             //displays message with toast
             errorHandler.observe(viewLifecycleOwner) {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                disableProgressBars(isEnabled = false)
+                disableProgressBars()
             }
         }
     }
 
-    //initiates recycler view and adapter
-    //that receives sorted list of items and displays to user
+    /**
+    initiates recycler view and adapter
+    that receives sorted list of items and displays to user
+     */
+
     private fun renderUi(sortedData: List<SortedData>) {
         binding.recyclerViewGroup.adapter = GroupAdapter(dataList = sortedData)
         binding.recyclerViewGroup.layoutManager = LinearLayoutManager(
@@ -84,22 +84,28 @@ class ListFragment : Fragment() {
         )
     }
 
-    //function to disable / enable swipe progress bars by passing true / false
-    private fun disableProgressBars(isEnabled: Boolean) {
-        //indicator from material design
-        binding.progressindicator.isVisible = isEnabled
-        swipeRefreshLayout.isRefreshing = isEnabled
+    /**
+     * function to disable / enable swipe progress bars by passing true / false
+     */
+    private fun disableProgressBars() {
+        binding.progressindicator.isVisible = false //indicator from material design
+        swipeRefreshLayout.isRefreshing = false
     }
 
-    //initiates swipeRefreshLayout listener
-    // that calls function from viewModel to get list of items
+    /**
+     initiates swipeRefreshLayout listener
+     that calls function from viewModel to get list of items
+     */
+
     private fun initListeners() {
         swipeRefreshLayout.setOnRefreshListener {
             listViewModel.getData()
         }
     }
 
-    //initiates variables (useful if more than one)
+    /**
+     * initiates variables (useful if more than one)
+     */
     private fun initVars() {
         swipeRefreshLayout = binding.swipe
         swipeRefreshLayout.isEnabled = true

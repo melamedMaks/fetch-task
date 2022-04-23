@@ -1,6 +1,6 @@
 package maksim.melamed.fetchtask.models
 
-/*
+/**
 model class that used for deserialization of json object
  */
 data class Data(

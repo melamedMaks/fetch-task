@@ -7,7 +7,7 @@ import maksim.melamed.fetchtask.services.Service
 
 import org.junit.Test
 
-    /*
+    /**
 tests service and repository method for receiving expected results
 */
 class RepositoryTest {
@@ -15,7 +15,7 @@ class RepositoryTest {
     private val repository = Repository()
 
     @Test
-    fun returns_true_if_received_data_from_service_not_null() {
+    fun received_data_from_service_is_not_null() {
         val data = runBlocking {
             Service.create().getFetchData()
         }
@@ -23,7 +23,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun returns_true_if_list_of_data_is_not_empty() {
+    fun list_of_data_is_not_empty() {
         val data = runBlocking {
             repository.getData()
         }
@@ -31,7 +31,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun returns_true_if_list_of_data_is_not_null() {
+    fun list_of_data_is_not_null() {
         val data = runBlocking {
             repository.getData()
         }
@@ -39,7 +39,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun returns_true_if_list_of_data_is_list() {
+    fun list_of_data_is_list() {
         val data = runBlocking {
             repository.getData()
         }
@@ -47,7 +47,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun returns_true_if_item_in_list_is_data_class() {
+    fun item_in_list_is_type_of_data_class() {
         val data = runBlocking {
             repository.getData()
         }

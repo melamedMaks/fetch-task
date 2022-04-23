@@ -7,13 +7,13 @@ import org.junit.Test
 
 class UtilsKtTest {
 
-    /*
+    /**
     a couple of tests to check if filterAndSortListOfItems() function returns
     expected results
 */
 
     @Test
-    fun returns_true_if_is_list() {
+    fun data_list_is_list() {
         val dataList = listOf<Data>()
         val listOfSortedData = filterAndSortListOfItems(dataList)
 
@@ -21,7 +21,7 @@ class UtilsKtTest {
     }
 
     @Test
-    fun returns_true_if_object_in_list_is_sorted_data_object() {
+    fun object_in_list_is_type_of_sorted_data() {
         val dataList = mutableListOf<Data>()
         dataList += Data(0, 0, "0")
         val listOfSortedData = filterAndSortListOfItems(dataList)
@@ -31,7 +31,7 @@ class UtilsKtTest {
     }
 
     @Test
-    fun returns_true_if_list_is_not_null() {
+    fun data_list_is_not_null() {
         val dataList = mutableListOf<Data>()
         dataList += Data(0, 0, "0")
         val listOfSortedData = filterAndSortListOfItems(dataList)
@@ -40,7 +40,7 @@ class UtilsKtTest {
     }
 
     @Test
-    fun returns_true_if_list_is_empty_then_name_is_empty() {
+    fun data_list_is_empty_when_name_is_empty() {
         val dataList = mutableListOf<Data>()
         dataList += Data(0, 0, "")
         val listOfSortedData = filterAndSortListOfItems(dataList)
@@ -49,7 +49,7 @@ class UtilsKtTest {
     }
 
     @Test
-    fun returns_true_if_list_is_empty_then_name_is_null() {
+    fun data_list_is_empty_when_name_is_null() {
         val dataList = mutableListOf<Data>()
         dataList += Data(0, 0, null)
         val listOfSortedData = filterAndSortListOfItems(dataList)
