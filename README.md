@@ -24,3 +24,6 @@ The app is written in Kotlin from scratch and implements the following:
 * ObjectAnimator
 * Junit 4 and Truth (testing)
 * Custom launcher icon
+
+Maksim Melamed
+melamed.maks@gmail.com
