@@ -2,9 +2,12 @@ package maksim.melamed.fetchtask.listfragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import maksim.melamed.fetchtask.databinding.GroupItemBinding
+import maksim.melamed.fetchtask.models.Data
 import maksim.melamed.fetchtask.models.SortedData
 
 /**
@@ -12,8 +15,10 @@ import maksim.melamed.fetchtask.models.SortedData
 while providing list of detailed item data to nested ItemAdapter
  */
 
-class GroupAdapter(var dataList: List<SortedData>) :
+class GroupAdapter() :
     RecyclerView.Adapter<GroupAdapter.VH>() {
+
+    private var dataList = listOf<SortedData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH =
         VH(
@@ -57,4 +62,9 @@ class GroupAdapter(var dataList: List<SortedData>) :
 
     inner class VH(val binding: GroupItemBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    fun updateGroupAdapter(dataList: List<SortedData>){
+        this.dataList = dataList
+        this.notifyDataSetChanged()
+    }
 }

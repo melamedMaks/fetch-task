@@ -10,9 +10,11 @@ returns list of Data objects within suspend function
 */
 class Repository {
 
+    private val service = Service.create()
+
     suspend fun getData(): List<Data> {
         return withContext(Dispatchers.IO) {
-            Service.create().getFetchData()
+            service.getFetchData()
         }
     }
 }

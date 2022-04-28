@@ -25,6 +25,7 @@ class ListFragment : Fragment() {
 
     private lateinit var listViewModel: ListViewModel
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var groupAdapter: GroupAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +40,9 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //initiates variables in this case only swipeRefreshLayout
+        //creates adapter
+        groupAdapter = GroupAdapter()
+        //initiates variables
         initVars()
         //initiates listeners (only onRefreshListener listener)
         initListeners()
@@ -60,7 +63,8 @@ class ListFragment : Fragment() {
                 //creating a new variable with sorted list of items according to the task requirements
                 val sortedData = filterAndSortListOfItems(list) //method to sort the received list
                 //renders ui within sorted list while using recycler view
-                renderUi(sortedData)
+
+                groupAdapter.updateGroupAdapter(sortedData)
             }
             //observes coroutine exception handler
             //receives string of localised message
@@ -76,9 +80,8 @@ class ListFragment : Fragment() {
     initiates recycler view and adapter
     that receives sorted list of items and displays to user
      */
-
-    private fun renderUi(sortedData: List<SortedData>) {
-        binding.recyclerViewGroup.adapter = GroupAdapter(dataList = sortedData)
+    private fun initAdapter() {
+        binding.recyclerViewGroup.adapter = groupAdapter
         binding.recyclerViewGroup.layoutManager = LinearLayoutManager(
             requireContext(), LinearLayoutManager.VERTICAL, false
         )
@@ -107,6 +110,7 @@ class ListFragment : Fragment() {
      * initiates variables (useful if more than one)
      */
     private fun initVars() {
+        initAdapter()
         swipeRefreshLayout = binding.swipe
         swipeRefreshLayout.isEnabled = true
     }
